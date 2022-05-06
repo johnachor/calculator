@@ -5,17 +5,26 @@ import calculate from "../logic/calculate";
 import "./App.css";
 
 export const App = () => {
-  const [state, setState] = useState({
-    total: null,
-    next: null,
-    operation: null,
-  });
+  const [total, setTotal] = useState("0");
+  const [next, setNext] = useState("");
+  const [operation, setOperation] = useState("");
 
-  const handleClick = buttonName => setState(calculate(state, buttonName));
+  const handleClick = buttonName => {
+    const {
+      total: calcTotal,
+      next: calcNext,
+      operation: calcOperation,
+    } = calculate(total, next, operation, buttonName);
+    setNext(calcNext);
+    setOperation(calcOperation);
+    setTotal(calcTotal);
+  };
+
+  const displayValue = next.length === 0 ? total : next;
 
   return (
     <div className="component-app">
-      <Display value={state.next || state.total || "0"} />
+      <Display value={displayValue} />
       <ButtonPanel clickHandler={handleClick} />
     </div>
   );
